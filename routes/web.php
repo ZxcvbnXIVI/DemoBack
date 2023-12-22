@@ -41,6 +41,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/sessions', [SessionController::class, 'index'])->name('sessions.index');
 });
 
+Route::get("/session", function () {
+    if (Auth::check()) {
+        return auth()->user();
+    } else {
+        return "User not authenticated";
+    }
+});
+
 
 
 

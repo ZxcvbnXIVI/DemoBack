@@ -37,31 +37,41 @@ class LoginController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-    public function handleGoogleCallback()
-    {
-        $user = Socialite::driver('google')->user();
-        return dd($user);
-        // $users = Socialite::driver('google')->stateless()->user();
+public function handleGoogleCallback()
+{
+  try {
+    $user = Socialite::driver('google')->stateless()->user();
 
+    $model = User::where('email', $user->email)->first();
 
-        // // เช็คว่ามี user ในระบบหรือไม่
-        // $existingUser = User::where('email', $user->email)->first();
-
-        // if ($existingUser) {
-        //     auth()->login($existingUser, true);
-        // } else {
-        //     // ถ้าไม่มีให้สร้าง user ใหม่
-        //     $newUser = new User();
-        //     $newUser->name = $user->name;
-        //     $newUser->email = $user->email;
-        //     $newUser->google_id = $user->id;
-        //     $newUser->password = bcrypt(str_random(16)); // สร้าง password สุ่ม
-        //     $newUser->save();
-
-        //     auth()->login($newUser, true);
-        // }
-
-        // return redirect('/');
+    // Check if already have an email, if not add a new one.
+    if (!$model) {
+      $model = User::create([
+        'UserName' => $user->name,
+        'email' => $user->email,
+        'google_id'  => $user->id,
+        'email_verified_at',
+        'password' => encrypt(''),
+        'Role' => null,
+        'image_path' => null,
+        'current_team_id' => null,
+        'profile_photo_path' => null,
+      ])->save();
     }
+
+    Auth::login($model);
+
+    return auth()->user();
+  } catch (\Exception $th) {
+    // Do something when eror.
+    throw $th;
+  }
+}
+
+public function logout()
+{
+  Auth::logout();
+  return redirect('/');
+}
 }
 

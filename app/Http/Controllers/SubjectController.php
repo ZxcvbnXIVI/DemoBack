@@ -29,10 +29,11 @@ class SubjectController extends Controller
         ]);
 
         $subject = new Subject;
-        $subject->SubjectName = $request->input('SubjectName');
-        $subject->Description = $request->input('Description');
-        $subject->PlaylistLink = $request->input('PlaylistLink');
-        $subject->save();
+$subject->SubjectName = $request->input('SubjectName');
+$subject->Description = $request->input('Description');
+$subject->PlaylistLink = $request->input('PlaylistLink');
+$subject->UserID = auth()->user()->UserID; // Get current userId
+$subject->save();
 
         return response()->json([
             'success' => true,
