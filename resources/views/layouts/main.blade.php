@@ -77,11 +77,11 @@
         transform: scaleX(1); /* ขยายขีดเต็มทั้งความยาวของ <li> */
     }
     body {
-        background-image: url('images/bg.png');
-        background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed; /* Center the background image */
-    }
+    background-image: url('{{ asset('images/bg.png') }}');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Center the background image */
+}
     .container {
 
   justify-content: center; /* Aligns horizontally */

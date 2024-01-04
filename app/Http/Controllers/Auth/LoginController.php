@@ -47,17 +47,18 @@ public function handleGoogleCallback()
     // Check if already have an email, if not add a new one.
     if (!$model) {
       $model = User::create([
-        'UserName' => $user->name,
-        'email' => $user->email,
-        'google_id'  => $user->id,
-        'email_verified_at',
-        'password' => encrypt(''),
-        'Role' => null,
-        'image_path' => null,
-        'current_team_id' => null,
-        'profile_photo_path' => null,
-      ])->save();
-    }
+          'UserName' => $user->name,
+          'email' => $user->email,
+          'google_id'  => $user->id,
+          'email_verified_at',
+          'password' => encrypt(''),
+          'Role' => 'Professor',
+          'image_path' => null,
+          'current_team_id' => null,
+          'profile_photo_path' => null,
+      ]);
+      $model->save();
+  }
 
     Auth::login($model);
 

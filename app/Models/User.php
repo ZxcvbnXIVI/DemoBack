@@ -33,5 +33,9 @@ class User extends Authenticatable
     ];
 
     // Additional model methods or relationships can be defined here
+    public function subjects(): HasMany
+    {
+        return $this->hasMany(Subject::class);
+    }
 }
 

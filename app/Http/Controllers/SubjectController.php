@@ -4,13 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Subject;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\SubjectResource;
 
 class SubjectController extends Controller
 {
     public function index()
     {
-        $subjects = Subject::all();
+        // ดึง UserID ที่ล็อกอิน
+        $userId = Auth::id();
+
+        // ดึงรายการวิชาที่เกี่ยวข้องกับ UserID
+        $subjects = Subject::where('UserID', $userId)->get();
+
         return view('subjects.index', compact('subjects'));
     }
     public function create()
